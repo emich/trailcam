@@ -14,11 +14,15 @@ try:
         if GPIO.input(23):
             millis = int(round(time.time() * 1000))
             print("Motion detected, taking photo...")
+	    camera.resolution = (1920, 1080)
             camera.capture('capture-{}-pic.jpg'.format(millis))
             print("Done taking photo, making video")
-	    camera.resolution = (640, 480)
+	    camera.resolution = (1280, 720)
             camera.start_recording('capture-{}-video.h264'.format(millis))
-            camera.wait_recording(60)
+            while GPIO.input(23): #do not stop recording while stuff is moving
+		camera.wait_recording(15)
+                print("Extending...")
+
             camera.stop_recording()
 	    print("Done with video. Resuming motion detection...")
             time.sleep(5) #to avoid multiple detection
