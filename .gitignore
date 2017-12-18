@@ -1,0 +1,7 @@
+*.jpg
+*.jpeg
+*.mp4
+*.h264
+*.py.save
+*.py~
+nohup.out
