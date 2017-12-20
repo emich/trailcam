@@ -12,6 +12,8 @@ GPIO.setup(23, GPIO.IN) #PIR
 boto3.set_stream_logger('')
 s3 = boto3.resource('s3')
 
+print('Starting camera...')
+
 try:
     time.sleep(2) # to stabilize sensor
     while True:
@@ -33,17 +35,11 @@ try:
             camera.stop_recording()
 	    print("Done recording")
             try:
-	           print("Uploading video to S3...")
+	           print("Converting h264 to mp4...")
 		   mp4videoname = 'capture-{}-video.mp4'.format(millis)
  	   	   call(["ffmpeg","-framerate","24","-i",videoname,"-c","copy",mp4videoname])
 		   call(["rm",videoname])
-		   data = open(mp4videoname, 'rb')
-		   s3.Bucket('zuzuthecat').put_object(Key=mp4videoname, Body=data)
-		   print("Done")
-	 	   print("Uploading photo to S3...")
-	           data = open(picname, 'rb')
-            	   s3.Bucket('zuzuthecat').put_object(Key=picname, Body=data)
-            	   print("Done with video. Resuming motion detection...")
+		   print("Done. Resuming motion detection.")
 
             except:
 		   print("Failed to upload videos. Check wifi!")
