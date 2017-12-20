@@ -1,7 +1,6 @@
 import picamera
 import RPi.GPIO as GPIO
 import time
-import boto3
 from subprocess import call
 from os.path import join
 import sys
@@ -12,8 +11,6 @@ camera.resolution = (1920, 1080)
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN) #PIR
-boto3.set_stream_logger('')
-s3 = boto3.resource('s3')
 
 mediapath = sys.argv[1] if len(sys.argv)>1 else os.path.dirname(os.path.realpath(__file__))
 
@@ -25,7 +22,7 @@ try:
         if GPIO.input(23):
             millis = int(round(time.time() * 1000))
             print("Motion detected, taking photo...")
-	    picname = 'capture-{}-pic.jpg'.format(millis) 
+	    picname = 'capture-{}-pic.jpg'.format(millis)
             videoname = 'capture-{}-video.h264'.format(millis)
             fullpicname = join(mediapath,picname)
 	    fullvideoname = join(mediapath,videoname)
