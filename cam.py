@@ -31,17 +31,13 @@ try:
 		camera.wait_recording(10)
                 print("There still is motion. Extending...")
 
-            camera.stop_recording()
-	    print("Done recording")
-            try:
-	           print("Converting h264 to mp4...")
-		   mp4videoname = 'capture-{}-video.mp4'.format(millis)
- 	   	   call(["ffmpeg","-framerate","24","-i",fullvideoname,"-c","copy",join(mediapath,mp4videoname)])
-		   call(["rm",fullvideoname])
-		   print("Done. Resuming motion detection.")
-
-            except:
-		   print("Failed to upload videos. Check wifi!")
+           camera.stop_recording()
+	   print("Done recording")
+           print("Converting h264 to mp4...")
+	   mp4videoname = 'capture-{}-video.mp4'.format(millis)
+   	   call(["ffmpeg","-framerate","24","-i",fullvideoname,"-c","copy",join(mediapath,mp4videoname)])
+	   call(["rm",fullvideoname])
+	   print("Done. Resuming motion detection.")
 
 	time.sleep(0.1) #loop delay, should be less than detection delay
 
