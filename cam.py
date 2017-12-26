@@ -21,14 +21,9 @@ try:
     while True:
         if GPIO.input(23):
             millis = int(round(time.time() * 1000))
-            print("Motion detected, taking photo...")
-	    picname = 'capture-{}-pic.jpg'.format(millis)
+            print("Motion detected, making video...")
             videoname = 'capture-{}-video.h264'.format(millis)
-            fullpicname = join(mediapath,picname)
 	    fullvideoname = join(mediapath,videoname)
-            camera.resolution = (1920, 1080)
-            camera.capture(fullpicname)
-            print("Done taking photo, making video")
 	    camera.resolution = (1280, 720)
             camera.start_recording(fullvideoname)
 	    camera.wait_recording(45)
