@@ -26,18 +26,18 @@ try:
 	    fullvideoname = join(mediapath,videoname)
 	    camera.resolution = (1280, 720)
             camera.start_recording(fullvideoname)
-	    camera.wait_recording(45)
+	    camera.wait_recording(15)
             while GPIO.input(23):
 		camera.wait_recording(10)
                 print("There still is motion. Extending...")
 
-           camera.stop_recording()
-	   print("Done recording")
-           print("Converting h264 to mp4...")
-	   mp4videoname = 'capture-{}-video.mp4'.format(millis)
-   	   call(["ffmpeg","-framerate","24","-i",fullvideoname,"-c","copy",join(mediapath,mp4videoname)])
-	   call(["rm",fullvideoname])
-	   print("Done. Resuming motion detection.")
+            camera.stop_recording()
+	    print("Done recording")
+            print("Converting h264 to mp4...")
+	    mp4videoname = 'capture-{}-video.mp4'.format(millis)
+   	    call(["ffmpeg","-framerate","24","-i",fullvideoname,"-c","copy",join(mediapath,mp4videoname)])
+	    call(["rm",fullvideoname])
+	    print("Done. Resuming motion detection.")
 
 	time.sleep(0.1) #loop delay, should be less than detection delay
 
